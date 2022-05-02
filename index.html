@@ -25,11 +25,11 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="productUpdate('phone',false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input type="text" id="phoneQty" class="form-control text-center" value="1">
+                           <button onclick="productUpdate('phone',true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5>$<span id="phonePrice">1219</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -43,12 +43,12 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="productUpdate('case',false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input type="text" id="caseQty" class="form-control text-center" value="1">
+                           <button onclick="productUpdate('case',true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
+                        <h5>$ <span id="casePrice">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -59,14 +59,14 @@
 
                      <div class="col-md-8">
                         <h5>Subtotal: </h5>
-                        <h5>Tax:</h5>
+                        <h5>Tax (15%):</h5>
                         <h5>Total:</h5>
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$<span id="subTotal">1,278</span></h5>
+                        <h5>$<span id="tax">191.7</span></h5>
+                        <h5>$<span id="grandTotal">1469.7</span></h5>
                      </div>
                   </div>
                </div>
@@ -77,6 +77,39 @@
          </div>
       </div>
    </section>
+   <script>
+      function productUpdate(product, isPlus){
+         let qty= parseInt(document.getElementById(product + "Qty").value);
+         if(isPlus==true){
+            qty=qty+1;
+         }
+         if(isPlus==false && qty>0){
+            qty=qty-1;
+         }
+         document.getElementById(product + "Qty").value=qty;
+         let updatePrice;
+         if(product=='phone'){
+            updatePrice=qty*1219;
+         }
+         if(product=='case'){
+            updatePrice=qty*59;
+         }
+         document.getElementById(product + "Price").innerText=updatePrice;
+         total();
+      }
+      function total(){
+         const totalPhonePrice= parseFloat(document.getElementById("phonePrice").innerText);
+         const totalCasePrice=parseFloat(document.getElementById("casePrice").innerText);
+         const subTotal=totalPhonePrice+totalCasePrice;
+         document.getElementById("subTotal").innerText=subTotal;
+         const tax=subTotal*.15;
+         document.getElementById("tax").innerText=tax.toFixed(2);
+         const grandTotal=subTotal+tax;
+         document.getElementById("grandTotal").innerText=grandTotal;
+
+
+      }
+   </script>
 </body>
 
 </html>
